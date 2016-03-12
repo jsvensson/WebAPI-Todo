@@ -9,8 +9,6 @@ namespace TodoAPI.Models
 {
     public class TodoRepository : ITodoRepository
     {
-        static ConcurrentDictionary<int, TodoItem> _todos = new ConcurrentDictionary<int, TodoItem>();
-
         public IEnumerable<TodoItem> GetAll()
         {
             using (var context = new TodoContext())
