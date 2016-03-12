@@ -11,11 +11,6 @@ namespace TodoAPI.Models
     {
         static ConcurrentDictionary<int, TodoItem> _todos = new ConcurrentDictionary<int, TodoItem>();
 
-        public TodoRepository()
-        {
-            Add(new TodoItem() {Name = "Item 1"});
-        }
-
         public IEnumerable<TodoItem> GetAll()
         {
             return _todos.Values;
@@ -23,15 +18,20 @@ namespace TodoAPI.Models
 
         public TodoItem Get(int id)
         {
-            TodoItem item;
-            _todos.TryGetValue(id, out item);
-            return item;
+            using (var context = new TodoContext())
+            {
+                return context.TodoItems.FirstOrDefault(i => i.Id == id);
+            }
         }
 
         public void Add(TodoItem item)
         {
-            item.Id = _todos.Count + 1;
-            _todos[item.Id] = item;
+            if (item == null) throw new ArgumentNullException(nameof(item));
+            using (var context = new TodoContext())
+            {
+                context.Attach(item);
+                context.SaveChanges();
+            }
         }
 
         public void Update(TodoItem item)
