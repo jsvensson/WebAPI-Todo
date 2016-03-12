@@ -40,7 +40,20 @@ namespace TodoAPI.Models
 
         public void Update(TodoItem item)
         {
-            _todos[item.Id] = item;
+            using (var context = new TodoContext())
+            {
+                var result = context.TodoItems.SingleOrDefault(i => i.Id == item.Id);
+                if (result != null)
+                {
+                    result.Name        = item.Name;
+                    result.Description = item.Description;
+                    result.IsCompleted = item.IsCompleted;
+                    result.CreatedAt   = item.CreatedAt;
+                    result.FinishedAt  = item.FinishedAt;
+
+                    context.SaveChanges();
+                }
+            }
         }
 
         public TodoItem Remove(int id)
