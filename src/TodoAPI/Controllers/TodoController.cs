@@ -59,5 +59,12 @@ namespace TodoAPI.Controllers
             TodoItems.Update(item);
             return new NoContentResult();
         }
+
+        [HttpDelete("{id}")]
+        public IActionResult Delete(int id)
+        {
+            TodoItems.Remove(id);
+            return new NoContentResult();
+        }
     }
 }

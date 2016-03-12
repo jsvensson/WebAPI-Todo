@@ -58,10 +58,17 @@ namespace TodoAPI.Models
 
         public TodoItem Remove(int id)
         {
-            TodoItem item;
-            _todos.TryGetValue(id, out item);
-            _todos.TryRemove(id, out item);
-            return item;
+            TodoItem result;
+            using (var context = new TodoContext())
+            {
+                result = context.TodoItems.SingleOrDefault(i => i.Id == id);
+                if (result != null)
+                {
+                    context.Remove(result);
+                    context.SaveChanges();
+                }
+            }
+            return result;
         }
     }
 }
