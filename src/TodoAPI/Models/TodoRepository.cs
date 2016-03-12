@@ -32,6 +32,7 @@ namespace TodoAPI.Models
             if (item == null) throw new ArgumentNullException(nameof(item));
             using (var context = new TodoContext())
             {
+                item.CreatedAt = DateTime.UtcNow;
                 context.Attach(item);
                 context.SaveChanges();
             }
