@@ -13,7 +13,10 @@ namespace TodoAPI.Models
 
         public IEnumerable<TodoItem> GetAll()
         {
-            return _todos.Values;
+            using (var context = new TodoContext())
+            {
+                return context.TodoItems.ToList();
+            }
         }
 
         public TodoItem Get(int id)
