@@ -9,13 +9,13 @@ namespace TodoAPI.Models
 {
     public class TodoContext : DbContext
     {
-        const string connection = @"Data Source=localhost;Initial Catalog=TodoApp;Integrated Security=True";
+        private const string Connection = @"Data Source=localhost;Initial Catalog=TodoApp;Integrated Security=True";
 
         public DbSet<TodoItem> TodoItems { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer(connection);
+            optionsBuilder.UseSqlServer(Connection);
         }
     }
 }
